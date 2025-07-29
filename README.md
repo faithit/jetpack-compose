@@ -244,29 +244,29 @@ dependency {
 
     AppNavHost.kt
 
-    Routes.kt
-
 Routes.kt
 
+
+```kotlin
 object Routes {
-    const val DEMO = "demo"
+    const val SPLASH = "splash"
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val HOME = "home"
 }
-
 AppNavHost.kt
-
+Set up `NavHost` in `AppNavHost.kt`:
+```kotlin
 @Composable
-fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.DEMO) {
-        composable(Routes.DEMO) { DemoScreen() }
-        composable(Routes.LOGIN) { LoginScreen() }
-        composable(Routes.REGISTER) { RegisterScreen() }
-        composable(Routes.HOME) { HomeScreen() }
+fun AppNavHost(navController: NavHostController = rememberNavController()) {
+    NavHost(navController = navController, startDestination = Routes.SPLASH) {
+        composable(Routes.SPLASH) { SplashScreen(navController) }
+        composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.REGISTER) { RegisterScreen(navController) }
+        composable(Routes.HOME) { HomeScreen(navController) }
     }
 }
-
+```
 
 ---
 
