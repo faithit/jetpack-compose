@@ -6,11 +6,16 @@ This guide walks you through setting up an Android application using **Jetpack C
 
 ## 📐 MVVM Architecture in Android
 
-**MVVM (Model-View-ViewModel)** is a design architecture that helps separate concerns and promotes clean, maintainable code.
 
-- **Model**: Manages the data and business logic (e.g., API, database).
-- **View**: Displays UI components and collects user input (Compose UI).
-- **ViewModel**: Acts as a bridge between View and Model. Holds UI-related data and state.
+MVVM stands for **Model-View-ViewModel** – a design pattern that separates your code into 3 layers:
+
+| Layer     | Responsibility                         |
+| --------- | -------------------------------------- |
+| Model     | Data layer – Repository, Database, API |
+| View      | UI – Screens, Composables              |
+| ViewModel | Logic – Connects View and Model        |
+
+MVVM helps to organize code better, test easily, and avoid UI + logic mixing.
 
 🔁 The flow:
 
@@ -38,6 +43,60 @@ com.safari.myfirstapp
 📌 **Note**: `AuthViewModel` will be placed inside the `data` package.
 
 ---
+## 🧰 Project Setup in Android Studio
+
+```
+Open Android Studio
+
+Select Empty Compose Activity
+
+Package name: com.safari.myfirstapp
+
+Finish and wait for Gradle build
+```
+
+---
+
+## 📁 Android Project Structure
+There are two main views in Android Studio:
+1. Android View (default)
+
+    Simplified and categorized (like manifests, java, res)
+
+    Beginner friendly
+
+2. Project View
+
+    Shows actual folder/file structure
+
+    Useful for GitHub uploads or deeper structure understanding
+
+Switch using the dropdown at the top-left of the Project pane.
+
+Important Files
+
+    AndroidManifest.xml: App info, permissions, activities
+
+    res/: Resources like images, strings, themes
+
+    MainActivity.kt: Entry point of the app
+    
+    Key Project Files
+📄 AndroidManifest.xml
+
+    Located under: app/src/main/AndroidManifest.xml
+
+    Declares your app components (Activities, Permissions)
+
+    You’ll add launcher activity, splash screen, etc. here
+
+📁 res/ folder
+
+    drawable/ → Images (e.g., logos)
+
+    layout/ → Not used in Compose (we use Composables instead)
+
+    values/ → Themes, colors, strings
 
 ## 📦 What is a Package in Android?
 
@@ -51,7 +110,7 @@ For example, `com.safari.myfirstapp` means:
 
 To create packages in Android Studio:
 
-1. Right-click `java/com.safari.myfirstapp`
+1. Right-click `com.safari.myfirstapp`
 2. Select **New > Package**
 3. Name it (e.g., `data`, `model`, `ui.screens`, etc.)
 
@@ -59,7 +118,15 @@ To create packages in Android Studio:
 
 ## 💡 What is Jetpack Compose?
 
-Jetpack Compose is Android's modern UI toolkit for building native UI using Kotlin code. It’s fully declarative, meaning you describe how the UI should look and it updates automatically.
+Jetpack Compose is Android's modern UI toolkit for building native UI using Kotlin code. It’s fully declarative, meaning you describe how the UI should look and it updates automatically. 
+All UI is created in Kotlin functions marked with `@Composable`
+Benefits:
+
+    No more XML layouts
+
+    Uses @Composable functions
+
+    Easier to create reusable UI
 
 ### Why Compose?
 
@@ -67,36 +134,18 @@ Jetpack Compose is Android's modern UI toolkit for building native UI using Kotl
 - More intuitive
 - Easy to preview
 
----
-
 ## 🧱 Layouts in Jetpack Compose
 
-Jetpack Compose replaces XML with composable functions.
+A layout organizes UI components on screen.
 
 ### Common Layouts
 
 | Layout   | Purpose                             |
 | -------- | ----------------------------------- |
-| `Column` | Arrange children vertically         |
-| `Row`    | Arrange children horizontally       |
+| `Column` | Stacks items vertically       |
+| `Row`    | Places items side by side      |
 | `Box`    | Stack elements on top of each other |
 | `Spacer` | Adds spacing between components     |
-
----
-
-## 🧪 Preview Function
-
-To see a live preview in Android Studio:
-
-```kotlin
-@Preview(showBackground = true)
-@Composable
-fun MyPreview() {
-    MyScreen()
-}
-```
-
-This lets you see your Composable in the design editor.
 
 ---
 
@@ -155,10 +204,25 @@ fun DemoPreview() {
 ```
 
 ---
+## 🧪 Preview Function
+
+To see a live preview in Android Studio:
+
+```kotlin
+@Preview(showBackground = true)
+@Composable
+fun MyPreview() {
+    MyScreen()
+}
+```
+
+This lets you see your Composable in the design editor.
+
+---
 
 ## 🧭 Navigation Setup
 
-Use `Navigation-Compose` to manage screen transitions.
+use `Navigation-Compose` to manage screen transitions.
 
 ### Steps:
 
@@ -170,36 +234,33 @@ dependency {
 }
 ```
 
-2. Create NavHost:
+2.Create these files under navigation/:
 
-```kotlin
-NavHost(
-    navController = navController,
-    startDestination = "splash"
-) {
-    composable("splash") { SplashScreen(navController) }
-    composable("login") { LoginScreen(navController) }
-    composable("register") { RegisterScreen(navController) }
-    composable("home") { HomeScreen() }
+    AppNavHost.kt
+
+    Routes.kt
+
+Routes.kt
+
+object Routes {
+    const val DEMO = "demo"
+    const val LOGIN = "login"
+    const val REGISTER = "register"
+    const val HOME = "home"
 }
-```
 
-3. Define routes and navigation logic in the `navigation` package.
+AppNavHost.kt
 
----
+@Composable
+fun AppNavHost(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Routes.DEMO) {
+        composable(Routes.DEMO) { DemoScreen() }
+        composable(Routes.LOGIN) { LoginScreen() }
+        composable(Routes.REGISTER) { RegisterScreen() }
+        composable(Routes.HOME) { HomeScreen() }
+    }
+}
 
-## 🗂️ Android Project Structure
-
-Switch between:
-
-- **Project** view: file-based structure
-- **Android** view: module-based, easier to work with
-
-Folders to know:
-
-- `manifests/AndroidManifest.xml` → App configuration
-- `java/com.safari.myfirstapp` → Main source code
-- `res/` → Resources like layout, images, strings
 
 ---
 
