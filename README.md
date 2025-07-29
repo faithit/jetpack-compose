@@ -145,9 +145,15 @@ A layout organizes UI components on screen.
 | `Column` | Stacks items vertically       |
 | `Row`    | Places items side by side      |
 | `Box`    | Stack elements on top of each other |
-| `Spacer` | Adds spacing between components     |
+| `LazyColumn` |  Scrollable  vertical list   |
 
 ---
+### Examples of UI Components
+Component	Description	Example
+Text()	Displays text	Text("Hello")
+Button()	Clickable button	Button(onClick = {}) { Text("Click") }
+Image()	Shows image from drawable	painterResource(id = R.drawable.logo)
+Spacer()	Adds space	Spacer(modifier = Modifier.height(10.dp))
 
 ## 🎨 Example: DemoScreen
 
