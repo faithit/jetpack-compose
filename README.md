@@ -253,9 +253,11 @@ object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
     const val HOME = "home"
-} ```
+}
+```
 
 AppNavHost.kt
+
 Set up `NavHost` in `AppNavHost.kt`:
 ```kotlin
 @Composable
