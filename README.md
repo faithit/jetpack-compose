@@ -245,8 +245,6 @@ dependency {
 
 2.Create these files under navigation/:
 
-    AppNavHost.kt
-
 Routes.kt
 
 
