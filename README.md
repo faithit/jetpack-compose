@@ -150,10 +150,13 @@ A layout organizes UI components on screen.
 ---
 ### Examples of UI Components
 Component	Description	Example
+
+```
 Text()	Displays text	Text("Hello")
 Button()	Clickable button	Button(onClick = {}) { Text("Click") }
 Image()	Shows image from drawable	painterResource(id = R.drawable.logo)
 Spacer()	Adds space	Spacer(modifier = Modifier.height(10.dp))
+```
 
 ## 🎨 Example: DemoScreen
 
