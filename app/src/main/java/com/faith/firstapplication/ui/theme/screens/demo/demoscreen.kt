@@ -1,4 +1,4 @@
-package com.faith.firstapplication.ui.theme.screens
+package com.faith.firstapplication.ui.theme.screens.demo
 
 
 import androidx.compose.foundation.Image
