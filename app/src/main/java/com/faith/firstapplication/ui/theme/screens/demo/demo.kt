@@ -20,11 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Notifications
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen() {
-    val navItems = listOf("Home", "Profile", "Settings")
-    val navIcons = listOf(Icons.Default.Home, Icons.Default.Person, Icons.Default.Settings)
+    val navItems = listOf("Home", "Courses", "Notifications")
+    val navIcons = listOf(Icons.Default.Home, Icons.Default.Person, Icons.Default.Notifications)
     var selectedIndex by remember { mutableStateOf(0) }
 
     val cardList = listOf(
@@ -42,7 +44,9 @@ fun DashboardScreen() {
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = Color(0xFF1976D2), // Blue background for BottomNav
+                contentColor = Color.White ) {
                 navItems.forEachIndexed { index, item ->
                     NavigationBarItem(
                         icon = { Icon(navIcons[index], contentDescription = item) },

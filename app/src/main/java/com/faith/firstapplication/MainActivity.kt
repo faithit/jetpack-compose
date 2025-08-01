@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FrstApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    finalHomeScreen()
+                   AppNavHost()
                 }
             }
         }

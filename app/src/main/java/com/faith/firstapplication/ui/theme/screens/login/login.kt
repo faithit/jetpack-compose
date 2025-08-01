@@ -36,6 +36,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.navigation.ROUTE_REGISTER
+import com.faith.firstapplication.navigation.ROUTE_HOME
+import com.faith.firstapplication.ui.theme.MediumOrchid
+import com.faith.firstapplication.ui.theme.SoftBlue
+import com.faith.firstapplication.ui.theme.SoftPink
 
 
 @Composable
@@ -52,7 +56,7 @@ fun LoginScreen(navController: NavHostController){
         Text(
             text="LOGIN",
             fontSize = 40.sp,
-            color= Color.Magenta,
+            color= MediumOrchid,
             fontFamily = FontFamily.Cursive
             )
         Spacer(modifier = Modifier.height((20.dp)))
@@ -100,7 +104,7 @@ fun LoginScreen(navController: NavHostController){
 
         )
         Spacer(modifier = Modifier.height((20.dp)))
-        Button(onClick = {},
+        Button(onClick = {navController.navigate(ROUTE_HOME)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
