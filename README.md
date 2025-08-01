@@ -290,6 +290,34 @@ com.safari.myfirstapp
         ├── RegisterScreen.kt
         └── DemoScreen.kt
 ```
+## 🚀 How to Change App Launcher Icon in Android (Jetpack Compose)
+
+Follow these steps to customize your Android app's launcher icon.
+
+### 🧱 Step 1: Prepare Your Icon Image
+
+- Use a **square PNG** image.
+- Recommended size: **512x512 pixels**.
+- Transparent background is ideal.
+- Save the file as `icon.png` (or a suitable name).
+
+### 🧭 Step 2: Use Image Asset Tool in Android Studio
+
+1. Right-click the `res` folder  
+   → **New** → **Image Asset**
+2. In the **Asset Studio** window:
+   - **Icon Type**: `Launcher Icons (Adaptive and Legacy)`
+   - **Name**: Keep as `ic_launcher`
+   - **Asset Type**: Select `Image`
+   - Click **Browse** and choose your `icon.png`
+3. Adjust the padding and preview the icon on all device shapes.
+
+### ✅ Step 3: Finish and Generate
+
+- Click **Next**
+- Then click **Finish**
+
+This generates launcher icon files in the following folders:
 
 
 
