@@ -1,4 +1,4 @@
-package com.faith.firstapplication.ui.theme.screens
+package com.faith.firstapplication.ui.theme.screens.Splashscreen
 
 import androidx.navigation.NavHostController
 
@@ -8,18 +8,17 @@ import androidx.navigation.NavHostController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.R
 import com.faith.firstapplication.navigation.ROUTE_LOGIN
 import com.faith.firstapplication.navigation.ROUTE_SPLASH
@@ -37,22 +36,27 @@ fun SplashScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE3F2FD)), // Soft Blue
+            .background(Color.Magenta),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = R.drawable.school), // Replace with your logo
+                painter = painterResource(id = R.drawable.school),
                 contentDescription = "App Logo",
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier.size(150.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Welcome to my app",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Magenta
+                color = Color.White
             )
         }
     }
+}
+@Preview(showBackground = true)
+@Composable
+fun splashpreview(){
+    SplashScreen(rememberNavController())
 }

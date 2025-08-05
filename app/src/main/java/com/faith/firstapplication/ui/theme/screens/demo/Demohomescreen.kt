@@ -31,7 +31,7 @@ fun DemoHomeScreen() {
         drawerContent = {
             ModalDrawerSheet {
                 Text("Navigation Menu", modifier = Modifier.padding(16.dp))
-                Divider()
+
                 Text("Home", modifier = Modifier.padding(16.dp))
                 Text("Settings", modifier = Modifier.padding(16.dp))
                 Text("Logout", modifier = Modifier.padding(16.dp))

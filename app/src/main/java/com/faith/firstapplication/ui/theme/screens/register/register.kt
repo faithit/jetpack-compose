@@ -1,6 +1,6 @@
 package com.faith.firstapplication.ui.theme.screens.register
 
-import android.renderscript.Sampler.Value
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -43,7 +44,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.R
+import com.faith.firstapplication.data.AuthViewModel
 import com.faith.firstapplication.navigation.ROUTE_LOGIN
+import com.faith.firstapplication.ui.theme.MintGreen
+import com.faith.firstapplication.ui.theme.SoftYellow
 
 @Composable
 fun RegisterScreen(navController:NavHostController){
@@ -56,14 +60,14 @@ fun RegisterScreen(navController:NavHostController){
 
     ) {
          var fullname by remember { mutableStateOf(" ")}
-        var emailadress by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var confirmpass by remember { mutableStateOf("") }
         Text(
             text="REGISTER",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color=Color.Magenta,
+            color= MintGreen,
             fontFamily = FontFamily.SansSerif
 
         )
@@ -98,8 +102,8 @@ fun RegisterScreen(navController:NavHostController){
             )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value =emailadress,
-            onValueChange={emailadress = it}, //updates fullname as user types
+            value =email,
+            onValueChange={email = it}, //updates fullname as user types
             label={ Text(text="Email Address")},
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,7 +148,11 @@ fun RegisterScreen(navController:NavHostController){
             }
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = {},
+        val context = LocalContext.current
+        val authViewModel = AuthViewModel(navController, context)
+        Button(onClick = {
+            authViewModel.signup(fullname, email, password,confirmpass)
+        },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),

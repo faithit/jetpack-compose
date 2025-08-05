@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.faith.firstapplication.data.AuthViewModel
 import com.faith.firstapplication.navigation.ROUTE_REGISTER
 import com.faith.firstapplication.navigation.ROUTE_HOME
 import com.faith.firstapplication.ui.theme.MediumOrchid
@@ -104,7 +106,11 @@ fun LoginScreen(navController: NavHostController){
 
         )
         Spacer(modifier = Modifier.height((20.dp)))
-        Button(onClick = {navController.navigate(ROUTE_HOME)},
+        val context = LocalContext.current
+        val authViewModel = AuthViewModel(navController, context)
+        Button(onClick = {
+            authViewModel.login(email, password)
+        },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
