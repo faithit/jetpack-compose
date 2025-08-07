@@ -52,11 +52,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    //firebase
-    implementation(libs.firebase.auth)
-    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
-    implementation(libs.firebase.database)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,6 +59,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //firebase
+    implementation(libs.firebase.auth)
+    implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation(libs.firebase.database)
+    //navigation
     implementation("androidx.navigation:navigation-compose:2.9.2")
 
 

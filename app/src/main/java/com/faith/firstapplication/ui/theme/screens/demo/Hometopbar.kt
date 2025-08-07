@@ -21,7 +21,9 @@ fun HomeTopAppBar(
     onSearchClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onProfileClick: () -> Unit
-) {
+)
+{
+
     TopAppBar(
         title = { Text("Home") },
         actions = {

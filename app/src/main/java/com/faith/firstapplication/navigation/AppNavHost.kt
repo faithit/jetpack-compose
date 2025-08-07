@@ -1,5 +1,6 @@
 package com.faith.firstapplication.navigation
 
+import AddStudentScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -8,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.ui.theme.screens.Homescreen.HomeScreen
 import com.faith.firstapplication.ui.theme.screens.Splashscreen.SplashScreen
+import com.faith.firstapplication.ui.theme.screens.Students.StudentListScreen
 import com.faith.firstapplication.ui.theme.screens.login.LoginScreen
 import com.faith.firstapplication.ui.theme.screens.register.RegisterScreen
 
@@ -34,6 +36,13 @@ fun  AppNavHost(
             composable(ROUTE_HOME) {
                 HomeScreen(navController)
             }
+            composable(ROUTE_ADDSTUDENT) {
+                AddStudentScreen(navController)
+            }
+            composable(ROUTE_lISTSTUDENT) {
+            StudentListScreen(navController)
+        }
+
     }
 
 }

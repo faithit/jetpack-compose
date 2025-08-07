@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +29,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -37,19 +39,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.faith.firstapplication.data.AuthViewModel
+import com.faith.firstapplication.navigation.ROUTE_ADDSTUDENT
+import com.faith.firstapplication.navigation.ROUTE_HOME
 import com.faith.firstapplication.navigation.ROUTE_LOGIN
+import com.faith.firstapplication.navigation.ROUTE_lISTSTUDENT
+import com.google.firebase.Firebase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController:NavHostController){
     val navItems= listOf("Home","Add Students","Grades","notifications")
     val navIcons= listOf(Icons.Default.Home,Icons.Default.Person,Icons.Default.Menu,Icons.Default.Notifications)
+    val navRoutes = listOf(ROUTE_HOME, ROUTE_ADDSTUDENT, ROUTE_lISTSTUDENT,ROUTE_lISTSTUDENT)
     var selectedIndex by remember { mutableStateOf(0)}
+    val context = LocalContext.current
+    val authViewModel = AuthViewModel(navController, context)
     Scaffold(
         //topbar
         topBar = {
@@ -73,6 +84,17 @@ fun HomeScreen(navController:NavHostController){
                         Icon(Icons.Default.Settings,
                             contentDescription = "settings icon")
                     }
+                   TextButton( onClick = {
+                      authViewModel.logout()
+
+
+                   }) {
+                       Text(
+                           text="Logout",
+                           color =Color.White
+                       )
+                   }
+
                 }
             )
         },
@@ -86,7 +108,16 @@ fun HomeScreen(navController:NavHostController){
                             icon = { Icon(navIcons[index], contentDescription = item) },
                             label = { Text(item, color = Color.White) },
                             selected = selectedIndex == index,
-                            onClick = { selectedIndex = index }
+                            onClick = {
+                                selectedIndex = index
+                                navController.navigate(navRoutes[index]) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                            }
+                            }
                         )
                 }
             }
@@ -105,14 +136,14 @@ fun HomeScreen(navController:NavHostController){
                title = "Add STUDENT",
                 description = "click to add a new student",
                 backgroundColor = Color(0xff2196f3),
-                onclick = {navController.navigate(ROUTE_LOGIN)}
+                onclick = {navController.navigate(ROUTE_ADDSTUDENT)}
 
             )
             HomeCard(
                 title = "View STUDENTs",
                 description = "see all registered students",
                 backgroundColor = Color(0xff4caf50),
-                onclick = {}
+                onclick = {navController.navigate(ROUTE_lISTSTUDENT)}
 
             )
             HomeCard(

@@ -67,24 +67,23 @@ class AuthViewModel(var navController: NavHostController, var context: Context) 
 
     }
     fun login(email: String,pass: String){
-
-            if (email.isBlank() || pass.isBlank()){
-                Toast.makeText(context,"Please email and password cannot be blank", Toast.LENGTH_LONG).show()
-            }
-            else {
                 mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful ){
-                        Toast.makeText(this.context, "Successfully logined in", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "Successfully loggined in",
+                            Toast.LENGTH_SHORT).show()
                         navController.navigate(ROUTE_HOME)
                     }else{
-                        Toast.makeText(this.context, "Error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "Error logging in",
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
-        }
+
     fun logout(){
         mAuth.signOut()
-        navController.navigate(ROUTE_LOGIN)
+        navController.navigate(ROUTE_LOGIN){
+        popUpTo(0)}
     }
+
+    fun isLoggedIn(): Boolean = mAuth.currentUser != null
 }
