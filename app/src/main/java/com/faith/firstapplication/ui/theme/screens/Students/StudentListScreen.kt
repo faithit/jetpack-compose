@@ -25,8 +25,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.data.AuthViewModel
+import com.faith.firstapplication.navigation.ROUTE_UPDATESTUDENT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,14 +83,20 @@ fun StudentListScreen(navController:NavHostController ) {
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .clickable {
-                                        // Navigate to Update Screen (pass student data or ID)
-//                                        navController.navigate("update_student/${studentItem.id}")
+                                        navController.navigate("$ROUTE_UPDATESTUDENT/${studentItem.id}")
                                     }
                             )
                     }
+
                 }
             }
         }
     }
 }
+}
+@Preview
+@Composable
+fun viewpreview() {
+    StudentListScreen(rememberNavController())
+
 }

@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.ui.theme.screens.Homescreen.HomeScreen
 import com.faith.firstapplication.ui.theme.screens.Splashscreen.SplashScreen
 import com.faith.firstapplication.ui.theme.screens.Students.StudentListScreen
+import com.faith.firstapplication.ui.theme.screens.Students.UpdateStudentScreen
 import com.faith.firstapplication.ui.theme.screens.login.LoginScreen
 import com.faith.firstapplication.ui.theme.screens.register.RegisterScreen
 
@@ -41,7 +42,11 @@ fun  AppNavHost(
             }
             composable(ROUTE_lISTSTUDENT) {
             StudentListScreen(navController)
-        }
+            }
+            composable(ROUTE_UPDATESTUDENT + "/{studentId}") { backStackEntry ->
+                val studentId = backStackEntry.arguments?.getString("studentId")!!
+                UpdateStudentScreen(navController, studentId)
+            }
 
     }
 

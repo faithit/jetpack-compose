@@ -16,7 +16,7 @@ import com.google.firebase.database.*
 class StudentViewModel(var navController: NavHostController, var context: Context) {
 
     var authViewModel: AuthViewModel
-    private val databaseReference = FirebaseDatabase.getInstance().getReference("Students")
+    val databaseReference = FirebaseDatabase.getInstance().getReference("Students")
 
     init {
         authViewModel = AuthViewModel(navController, context)
@@ -66,7 +66,8 @@ class StudentViewModel(var navController: NavHostController, var context: Contex
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "Database error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Database error",
+                    Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -76,10 +77,22 @@ class StudentViewModel(var navController: NavHostController, var context: Contex
     fun deleteStudent(studentId: String) {
         databaseReference.child(studentId).removeValue()
             .addOnSuccessListener {
-                Toast.makeText(context, "Student deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Student deleted",
+                    Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Failed to delete",
+                    Toast.LENGTH_SHORT).show()
+            }
+    }
+    //update
+    fun updateStudent(updatedStudent: Student) {
+        databaseReference.child(updatedStudent.id).setValue(updatedStudent)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Student updated", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show()
             }
     }
 
