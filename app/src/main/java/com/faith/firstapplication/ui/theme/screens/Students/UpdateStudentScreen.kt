@@ -29,7 +29,7 @@ import com.faith.firstapplication.models.Student
 @Composable
 fun UpdateStudentScreen(navController: NavHostController, studentId: String) {
     val context = LocalContext.current
-    val viewModel = StudentViewModel(navController, context)
+    val studentviewmodel = StudentViewModel(navController, context)
 
     // State for student data
     val name = remember { mutableStateOf("") }
@@ -38,7 +38,7 @@ fun UpdateStudentScreen(navController: NavHostController, studentId: String) {
 
     // Fetch student from Firebase by ID
     LaunchedEffect(studentId) {
-        viewModel.databaseReference.child(studentId).get().addOnSuccessListener { snapshot ->
+        studentviewmodel.databaseReference.child(studentId).get().addOnSuccessListener { snapshot ->
     //convert the retrieved snapshot into a Student Object
             val student = snapshot.getValue(Student::class.java)
             //update the ui state variables
@@ -95,7 +95,7 @@ fun UpdateStudentScreen(navController: NavHostController, studentId: String) {
                         age = age.value,
                         course = course.value
                     )
-                    viewModel.updateStudent(updatedStudent)
+                    studentviewmodel.updateStudent(updatedStudent)
                     navController.popBackStack() // Go back to list
                 },
                 modifier = Modifier.fillMaxWidth()

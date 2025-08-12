@@ -49,6 +49,7 @@ import com.faith.firstapplication.data.AuthViewModel
 import com.faith.firstapplication.navigation.ROUTE_ADDSTUDENT
 import com.faith.firstapplication.navigation.ROUTE_HOME
 import com.faith.firstapplication.navigation.ROUTE_LOGIN
+import com.faith.firstapplication.navigation.ROUTE_MYINTENTS
 import com.faith.firstapplication.navigation.ROUTE_lISTSTUDENT
 import com.google.firebase.Firebase
 
@@ -147,13 +148,13 @@ fun HomeScreen(navController:NavHostController){
 
             )
             HomeCard(
-                title="Update Student",
+                title="Intents",
                 description = "modify existing student",
                 backgroundColor = Color(0XFFFF9800),
-                onclick = {}
+                onclick = {navController.navigate(ROUTE_MYINTENTS)}
             )
             HomeCard(
-                title="DELETE Student",
+                title="My screen",
                 description = "Remove an existing student",
                 backgroundColor = Color(0XFFF44336),
                 onclick = {}
