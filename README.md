@@ -319,6 +319,54 @@ Follow these steps to customize your Android app's launcher icon.
 
 This generates launcher icon files in the following folders:
 
+# Student Management App (Jetpack Compose + Firebase + Cloudinary)
+
+This project is a **Student Management Application** built with **Kotlin**, **Jetpack Compose**, **Firebase**, and **Cloudinary**.  
+Students can **add, update, view, and delete student records**, including uploading a profile image.
+
+---
+
+## 🚀 Features
+- **Firebase Authentication** (Register & Login)
+- **CRUD Operations** (Create, Read, Update, Delete students)
+- **Upload Images to Cloudinary**
+- **Store only Image URL in Firebase**
+- **MVVM Architecture** with **ViewModel + Repository**
+- **Jetpack Compose UI**
+
+---
+
+## 🛠️ Tech Stack
+- **Frontend**: Jetpack Compose (Kotlin)
+- **Backend (Database)**: Firebase Firestore
+- **Authentication**: Firebase Auth
+- **Image Hosting**: Cloudinary
+- **Networking**: Retrofit
+- **Architecture**: MVVM
+
+---
+
+## ⚙️ How it Works
+1. **User Registers/Logs in** with Firebase Authentication.  
+2. **Adding a Student**:  
+   - User fills in **name, age, course, etc.**  
+   - Selects a profile image → image is **uploaded to Cloudinary**.  
+   - Cloudinary returns a **secure image URL**.  
+   - Student details + image URL are **stored in Firebase Firestore**.  
+3. **Updating a Student**:  
+   - You can update **only the changed fields** (e.g., course) without overwriting the image.  
+   - If a new image is uploaded, the old URL is replaced with the new Cloudinary URL.  
+4. **Reading Students**:  
+   - All student records are fetched from Firebase Firestore.  
+5. **Deleting Students**:  
+   - Record is removed from Firebase Firestore.  
+   - (Optional) Image can also be deleted from Cloudinary if needed.  
+
+---
+
+## 📂 Project Structure
+
+
 
 
 > Created by Faith — Jetpack Compose + MVVM starter project
