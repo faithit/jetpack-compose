@@ -1,4 +1,8 @@
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -6,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -15,11 +21,14 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,7 +42,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,15 +57,13 @@ import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.data.AuthViewModel
 import com.faith.firstapplication.data.StudentViewModel
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.faith.firstapplication.navigation.ROUTE_ADDSTUDENT
 import com.faith.firstapplication.navigation.ROUTE_HOME
 import com.faith.firstapplication.navigation.ROUTE_lISTSTUDENT
+import com.faith.firstapplication.R
 
-//create a screen lets say overviwscreen
-//add topbar
-//add a image//
-//add  a welcome text
-//add card(title,icon)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddStudentScreen(navController: NavHostController) {
@@ -148,7 +157,18 @@ fun AddStudentScreen(navController: NavHostController) {
             var name by remember { mutableStateOf("") }
             var age by remember { mutableStateOf("") }
             var course by remember { mutableStateOf("") }
+            // Add this
+            var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+            // Image picker launcher
+            val imagePickerLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.GetContent()
+            ) { uri: Uri? ->
+                imageUri = uri
+            }
             val context = LocalContext.current
+
+
             val studentviewmodel = StudentViewModel(navController, context)
             Text(
                 text = "Add STUDENT",
@@ -157,6 +177,31 @@ fun AddStudentScreen(navController: NavHostController) {
                 fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.height(20.dp))
+            //  add this Student Image Preview + Picker
+            Card(
+                shape = CircleShape,
+                elevation = CardDefaults.cardElevation(6.dp),
+                modifier = Modifier
+                    .size(140.dp)
+                    .clickable { imagePickerLauncher.launch("image/*") }
+                    .shadow(8.dp, CircleShape)
+            ) {
+                AsyncImage(
+                    model = imageUri ?: R.drawable.student, // fallback pic if no image
+                    contentDescription = "Student Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(140.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedButton(onClick = { imagePickerLauncher.launch("image/*") }) {
+                Text("Choose Student Image")
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
@@ -189,7 +234,8 @@ fun AddStudentScreen(navController: NavHostController) {
                 studentviewmodel.uploadStudent(
                     name = name,
                     age = age,
-                    course = course
+                    course = course ,
+                    imageUri = imageUri  // 👈 Add this param
                 )
 
                 //  clear form
@@ -205,8 +251,8 @@ fun AddStudentScreen(navController: NavHostController) {
         }
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun addstudentprevie(){
-    AddStudentScreen(rememberNavController())
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun addstudentprevie(){
+//    AddStudentScreen(rememberNavController())
+//}

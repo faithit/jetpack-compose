@@ -65,7 +65,13 @@ dependencies {
     implementation(libs.firebase.database)
     //navigation
     implementation("androidx.navigation:navigation-compose:2.9.2")
-
-
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    //cloudinary
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    //coil
+    implementation("io.coil-kt:coil-compose:2.0.0")
 
 }

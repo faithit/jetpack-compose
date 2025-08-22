@@ -1,5 +1,6 @@
 package com.faith.firstapplication.ui.theme.screens.Students
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +25,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.faith.firstapplication.data.AuthViewModel
 import com.faith.firstapplication.navigation.ROUTE_UPDATESTUDENT
 
@@ -35,14 +39,16 @@ import com.faith.firstapplication.navigation.ROUTE_UPDATESTUDENT
 @Composable
 fun StudentListScreen(navController:NavHostController ) {
     val context = LocalContext.current
-    val viewModel =StudentViewModel(navController, context)
+
+    val studentviewmodel = StudentViewModel(navController, context)
+
 
     val student = remember { mutableStateOf(Student("", "", "", "", "")) }
     val students = remember { mutableStateListOf<Student>() }
 
     // Fetch students from Firebase
     LaunchedEffect(Unit) {
-        viewModel.allStudents(student, students)
+        studentviewmodel.allStudents(student, students)
     }
 
     Scaffold(
@@ -59,6 +65,17 @@ fun StudentListScreen(navController:NavHostController ) {
                     elevation = CardDefaults.cardElevation(4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
+                        // Product Image add this
+                        Image(
+                            painter = rememberAsyncImagePainter(studentItem.imageUrl),
+                            contentDescription = "Product Image",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(160.dp)
+                                .padding(bottom = 8.dp),
+                            contentScale = ContentScale.Crop
+                        )
+
                         Text(text = "Name: ${studentItem.name}", style = MaterialTheme.typography.titleMedium)
                         Text(text = "Age: ${studentItem.age}")
                         Text(text = "Course: ${studentItem.course}")
@@ -72,7 +89,7 @@ fun StudentListScreen(navController:NavHostController ) {
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .clickable {
-                                      viewModel.deleteStudent(studentItem.id)
+                                     studentviewmodel.deleteStudent(studentItem.id)
                                     }
                             )
 

@@ -49,14 +49,16 @@ fun IntentScreen(navController: NavHostController) {
             .padding(16.dp)
     ) {
         Text(
-            text = "📱 Intents Demo",
-            color = Color(0xFFFFD700),
+            text = "Intents Demo",
+            color = Color.Blue,
             fontSize = 28.sp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-
-        // 📸 Camera
-        IntentButton("📸 Open Camera") {
+        // Camera
+        IntentButton("Open Camera") {
+            //CREATE INTENT
+            //val intent=Intent()
+            //startactivity(Intent)
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(context as Activity, cameraIntent, 1, null)
         }
@@ -79,14 +81,14 @@ fun IntentScreen(navController: NavHostController) {
         }
 
         // 💬 SMS
-        IntentButton("💬 Send SMS") {
-            val smsIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:07456789"))
-            smsIntent.putExtra("sms_body", "How is today's weather?")
+        IntentButton(" Send SMS") {
+            val smsIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:0729618566"))
+            smsIntent.putExtra("sms_body", "Hello this is  mesaage from intentn in android?")
             context.startActivity(smsIntent)
         }
 
-        // 💳 SIM Toolkit
-        IntentButton("💳 Open SIM Toolkit") {
+        // SIM Toolkit
+        IntentButton(" Open SIM Toolkit") {
             context.packageManager.getLaunchIntentForPackage("com.android.stk")
                 ?.let { context.startActivity(it) }
         }
@@ -95,13 +97,13 @@ fun IntentScreen(navController: NavHostController) {
         IntentButton("📤 Share Text") {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey, download this app!")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey, check out my app! https://play/...")
             context.startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
 
         // 📧 Email
         IntentButton("📧 Send Email") {
-            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null))
+            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "faithit@gmail.com", null))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Body")
             context.startActivity(Intent.createChooser(emailIntent, "Send email..."))
@@ -109,21 +111,26 @@ fun IntentScreen(navController: NavHostController) {
 
         // 📲 Dialer
         IntentButton("📲 Open Dialer") {
-            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+34666777888"))
+            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:0729618566"))
             context.startActivity(dialIntent)
         }
 
-        // 🌐 Website
-        IntentButton("🌐 Open Website") {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+        //  Website
+        IntentButton("Open Website") {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.emobilis.com"))
             context.startActivity(webIntent)
         }
 
         // 🗺 Google Maps
         IntentButton("🗺 Open Google Maps") {
-            val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Nairobi,Kenya"))
+            val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=Emobilis+Nairobi,Kenya"))
             mapIntent.setPackage("com.google.android.apps.maps")
             context.startActivity(mapIntent)
+        }
+        //open gallery
+        IntentButton("OPEN GALLERY") {
+             val galleryintent=Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(context as Activity,galleryintent,2,null)
         }
     }
 }

@@ -1,53 +1,97 @@
 package com.faith.firstapplication.data
-
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.faith.firstapplication.models.Student
-import com.faith.firstapplication.navigation.ROUTE_LOGIN
+
+import com.faith.firstapplication.navigation.ROUTE_lISTSTUDENT
 
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import okhttp3.Request
 
-class StudentViewModel(var navController: NavHostController, var context: Context) {
 
-    var authViewModel: AuthViewModel
-    val databaseReference = FirebaseDatabase.getInstance().getReference("Students")
+import android.net.Uri
 
-    init {
-        authViewModel = AuthViewModel(navController, context)
-//        if (!authViewModel.isLoggedIn()) {
-//            //navController.navigate(ROUTE_LOGIN)
-//        }
-    }
-    fun uploadStudent(name: String, age: String, course: String) {
-        val studentId = System.currentTimeMillis().toString()
-        val studentRef = FirebaseDatabase.getInstance().getReference()
-            .child("Students/$studentId")
+import androidx.compose.runtime.mutableStateListOf
 
+
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+
+import okhttp3.RequestBody
+import java.io.InputStream
+
+class StudentViewModel(
+    var navController: NavHostController, var context: Context
+)  {
+
+    val  databaseReference = FirebaseDatabase.getInstance().getReference("Students")
+
+    val cloudinaryUrl = "https://api.cloudinary.com/v1_1/dx5oluh2i/image/upload"
+    val uploadPreset = "students"
+
+    val _students = mutableStateListOf<Student>()
+    val students: List<Student> = _students
+
+    // -------- Upload Student --------
+    fun uploadStudent(
+        imageUri: Uri?,
+        name: String,
+        age: String,
+        course: String
+    ) {
+        val ref = FirebaseDatabase.getInstance().getReference("Students").push()
         val currentUser = FirebaseAuth.getInstance().currentUser
         val userId = currentUser?.uid ?: ""
 
-        val studentData = Student(name = name, age = age, course = course, id = studentId, userId = userId)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val imageUrl = if (imageUri != null) {
+                    uploadToCloudinary(context, imageUri) // returns secureUrl
+                } else {
+                    ""
+                }
 
-        studentRef.setValue(studentData).addOnCompleteListener {
-            if (it.isSuccessful) {
-                Toast.makeText(context, "Student added successfully",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Error: ${it.exception?.message}",
-                    Toast.LENGTH_SHORT)
-                    .show()
+                val studentData = mapOf(
+                    "id" to ref.key,
+                    "name" to name,
+                    "age" to age,
+                    "course" to course,
+                    "userId" to userId,
+                    "imageUrl" to imageUrl
+                )
+
+                ref.setValue(studentData).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(context, "Student saved successfully", Toast.LENGTH_SHORT).show()
+                        navController.navigate(ROUTE_lISTSTUDENT)
+                    } else {
+                        Toast.makeText(context, "Error: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Upload failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
     }
 
-    // Fetch all students
+
+    // -------- Fetch Students --------
     fun allStudents(
         student: MutableState<Student>,
         students: SnapshotStateList<Student>
@@ -73,7 +117,7 @@ class StudentViewModel(var navController: NavHostController, var context: Contex
 
         return students
     }
-    // DELETE
+    // -------- Delete Student --------
     fun deleteStudent(studentId: String) {
         databaseReference.child(studentId).removeValue()
             .addOnSuccessListener {
@@ -85,15 +129,69 @@ class StudentViewModel(var navController: NavHostController, var context: Contex
                     Toast.LENGTH_SHORT).show()
             }
     }
-    //update
-    fun updateStudent(updatedStudent: Student) {
-        databaseReference.child(updatedStudent.id).setValue(updatedStudent)
-            .addOnSuccessListener {
-                Toast.makeText(context, "Student updated", Toast.LENGTH_SHORT).show()
+
+fun updateStudent(
+    studentId: String,
+    name: String,
+    age: String,
+    course: String,
+    imageUri: Uri?,
+
+) {
+
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            // upload image only if selected
+            val newImageUrl = imageUri?.let { uploadToCloudinary(context, it) }
+
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val userId = currentUser?.uid ?: ""
+
+            val updates = mutableMapOf<String, Any>(
+                "id" to studentId,
+                "name" to name,
+                "age" to age,
+                "course" to course,
+                "userId" to userId
+            )
+
+            if (!newImageUrl.isNullOrEmpty()) {
+                updates["imageUrl"] = newImageUrl
             }
-            .addOnFailureListener {
-                Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show()
+
+            val ref = databaseReference.child(studentId)
+            ref.updateChildren(updates).await() // suspend until done
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Student updated successfully", Toast.LENGTH_LONG).show()
+                navController.navigate(ROUTE_lISTSTUDENT)
             }
+
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Update failed: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}
+
+
+    // -------- Helper: Upload to Cloudinary --------
+    private fun uploadToCloudinary(context:Context,uri: Uri):String{
+        val contentResolver = context.contentResolver
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val fileBytes = inputStream?.readBytes() ?: throw  Exception("Image read failed")
+        val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("file","image.jpg",
+                RequestBody.create("image/*".toMediaTypeOrNull(),fileBytes))
+            .addFormDataPart("upload_preset",uploadPreset).build()
+        val request = Request.Builder().url(cloudinaryUrl).post(requestBody).build()
+        val response = OkHttpClient().newCall(request).execute()
+        if(!response.isSuccessful) throw Exception("Upload failed")
+        val responseBody = response.body?.string()
+        val secureUrl = Regex("\"secure_url\":\"(.*?)\"")
+            .find(responseBody ?: "")?.groupValues?.get(1)
+        return secureUrl ?: throw Exception("Failed to get image URL")
     }
 
 }
