@@ -1,5 +1,6 @@
 # Jetpack Compose Android App with MVVM Architecture
 📌 **Extra Guide:**[📸 Image Upload with Cloudinary & Firebase]
+
 This guide walks you through setting up an Android application using **Jetpack Compose** and the **MVVM (Model-View-ViewModel)** architecture pattern.
 
 ---
