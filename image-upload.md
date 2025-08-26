@@ -13,7 +13,7 @@ This guide explains how to handle **image upload** in your Android project using
 ---
 
 ## 📱 Example from Student Project
-In ourproject:
+In our project:
 - We added an **image picker** in the **Add Student Screen**.
 - The selected image was uploaded to **Cloudinary**.
 - The **image URL** was stored in **Firebase Realtime Database**.
@@ -42,7 +42,9 @@ val cloudinaryUrl = "https://api.cloudinary.com/v1_1/<your_cloud_name>/image/upl
 val uploadPreset = "students"
 // Replace "students" with the upload preset you created
 
+```
 Retrofit API
+```kotlin
 @Multipart
 @POST("v1_1/<your_cloud_name>/image/upload")
 // Replace <your_cloud_name> with your Cloudinary cloud name
