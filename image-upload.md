@@ -13,7 +13,7 @@ This guide explains how to handle **image upload** in your Android project using
 ---
 
 ## 📱 Example from Student Project
-In our demo project:
+In ourproject:
 - We added an **image picker** in the **Add Student Screen**.
 - The selected image was uploaded to **Cloudinary**.
 - The **image URL** was stored in **Firebase Realtime Database**.
