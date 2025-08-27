@@ -9,3 +9,4 @@ const val ROUTE_lISTSTUDENT="liststudent"
 const val ROUTE_UPDATESTUDENT="updatestudent"
 //intents screen route
 const val ROUTE_MYINTENTS="myintents"
+const val ROUTE_ONBOARDING="onboarding"

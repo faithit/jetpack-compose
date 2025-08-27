@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.faith.firstapplication.navigation.AppNavHost
 import com.faith.firstapplication.ui.theme.FrstApplicationTheme
-import com.faith.firstapplication.ui.theme.screens.demo.finalHomeScreen
+
+
 
 
 class MainActivity : ComponentActivity() {
@@ -30,19 +31,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun demo(){
-    Column {
-        Text(
-            text="welcome to jetpack compose"
-        )
-        Text(
-            text="This a a text field  inside a column"
-        )
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun demoPreview() {
-   demo()
-}

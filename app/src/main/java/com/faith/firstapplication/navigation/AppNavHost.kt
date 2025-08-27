@@ -8,9 +8,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.faith.firstapplication.ui.theme.screens.Homescreen.HomeScreen
+
+import com.faith.firstapplication.ui.theme.screens.Onboarding.OnboardingScreen
 import com.faith.firstapplication.ui.theme.screens.Splashscreen.SplashScreen
 import com.faith.firstapplication.ui.theme.screens.Students.StudentListScreen
 import com.faith.firstapplication.ui.theme.screens.Students.UpdateStudentScreen
+
 import com.faith.firstapplication.ui.theme.screens.intent.IntentScreen
 import com.faith.firstapplication.ui.theme.screens.login.LoginScreen
 import com.faith.firstapplication.ui.theme.screens.register.RegisterScreen
@@ -50,6 +53,10 @@ fun  AppNavHost(
             }
         composable(ROUTE_MYINTENTS) {
             IntentScreen(navController)
+        }
+        // Onboarding Route
+        composable(ROUTE_ONBOARDING) {
+            OnboardingScreen(navController)
         }
 
     }

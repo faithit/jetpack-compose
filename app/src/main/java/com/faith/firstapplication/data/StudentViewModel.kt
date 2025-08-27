@@ -39,7 +39,7 @@ class StudentViewModel(
 
     val  databaseReference = FirebaseDatabase.getInstance().getReference("Students")
 
-    val cloudinaryUrl = "https://api.cloudinary.com/v1_1/dx5oluh2i/image/upload"
+    val cloudinaryUrl = "https://api.cloudinary.com/v1_1/dx5oluh2i/image/upload" //change the cloud name
     val uploadPreset = "students"
 
     val _students = mutableStateListOf<Student>()
@@ -176,7 +176,7 @@ fun updateStudent(
 }
 
 
-    // -------- Helper: Upload to Cloudinary --------
+    // : Upload to Cloudinary --------
     private fun uploadToCloudinary(context:Context,uri: Uri):String{
         val contentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)

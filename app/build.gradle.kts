@@ -73,5 +73,9 @@ dependencies {
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     //coil
     implementation("io.coil-kt:coil-compose:2.0.0")
+    //onbording screen
+    implementation("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 }
